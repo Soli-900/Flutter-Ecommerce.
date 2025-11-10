@@ -1,9 +1,11 @@
+
 import 'package:ecommerce_ui_tut/utils/categories_tile.dart';
 import 'package:ecommerce_ui_tut/utils/prod_card.dart';
 import 'package:flutter/material.dart';
 
 class Homepage extends StatefulWidget {
-  const Homepage({super.key});
+  const Homepage({super.key,this.navIndex=0});
+  final int navIndex;
 
   @override
   State<Homepage> createState() => _HomepageState();
@@ -16,9 +18,22 @@ class _HomepageState extends State<Homepage> {
       bottomNavigationBar: BottomNavigationBar(
         iconSize: 35,
         selectedItemColor: Colors.deepOrange,
+        currentIndex: widget.navIndex,
+        onTap: (value) {
+          if(value ==1){
+            Navigator.of(context).pushNamed( 'Cart');
+          }
+          else if(value ==0){
+            Navigator.of(context).pushNamedAndRemoveUntil('Home', (route) => false);
+          }
+          else if(value ==2){
+            Navigator.of(context).pushNamed('Profile');
+          }
+        },
         items: [
+          
         BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'Home'),
-        BottomNavigationBarItem(icon: Icon(Icons.shopping_bag_outlined), label: 'Cart'),
+        BottomNavigationBarItem(icon: Icon(Icons.shopping_bag_outlined), label: 'Cart',),
         BottomNavigationBarItem(icon: Icon(Icons.person_2_rounded), label: 'Profile'),
       ]),
       body: Padding(
@@ -74,7 +89,7 @@ class _HomepageState extends State<Homepage> {
                   CategoriesTile(
                     catgIcon: Icons.man,
                     catgText: 'Men',
-                  ), //Reuse Tile in urtils folder
+                  ), //Reuse Tile in utils folder
                   SizedBox(width: 20),
                   CategoriesTile(catgIcon: Icons.woman, catgText: 'Woman'),
                   SizedBox(width: 20),
@@ -100,7 +115,7 @@ class _HomepageState extends State<Homepage> {
             ),
             SizedBox(height: 10),
 
-            GridView(
+            GridView( // Best Selleing Section
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 mainAxisExtent: 250,

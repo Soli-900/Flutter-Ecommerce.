@@ -1,8 +1,9 @@
 import 'package:ecommerce_ui_tut/utils/prod_color.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class ItemDetails extends StatefulWidget {
-  const ItemDetails({
+  ItemDetails({
     super.key,
     required this.imagePath,
     required this.title,
@@ -16,11 +17,19 @@ class ItemDetails extends StatefulWidget {
   final double price;
   final String? selectedColor;
 
+  late Box cartBox;
+
   @override
   State<ItemDetails> createState() => _ItemDetailsState();
 }
 
 class _ItemDetailsState extends State<ItemDetails> {
+  @override
+  void initState() {
+    super.initState();
+    widget.cartBox = Hive.box('cartBox');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,7 +81,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                 widget.subTitle,
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 2),
               Text(
                 '\$${widget.price.toStringAsFixed(2)}',
                 style: TextStyle(
@@ -81,6 +90,8 @@ class _ItemDetailsState extends State<ItemDetails> {
                   color: Colors.deepOrange,
                 ),
               ),
+              SizedBox(height: 5),
+
               Row(
                 //colors row
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -95,7 +106,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                   ProdColor(color: Colors.blue, colorName: "Blue"),
                 ],
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 5),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -115,7 +126,21 @@ class _ItemDetailsState extends State<ItemDetails> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 50),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    await widget.cartBox.add({
+                      'imagePath': widget.imagePath,
+                      'title': widget.title,
+                      'subTitle': widget.subTitle,
+                      'price': widget.price,
+                    });
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Item added to cart'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                    Navigator.of(context).pushNamed('Cart');
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepOrange,
                     elevation: 5,
