@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:circle_nav_bar/circle_nav_bar.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key, this.navIndex});
@@ -15,42 +16,71 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     Box cartBox = Hive.box('cartBox');
     var items = Hive.box('cartBox').values.toList();
-    return Scaffold(
-      //botton Navigation bar
-      bottomNavigationBar: BottomNavigationBar(
-        iconSize: 35,
-        selectedItemColor: Colors.deepOrange,
-        currentIndex: widget.navIndex ?? 1,
-        onTap: (value) {
-          if (value == 1) {
+    return Scaffold(  
+
+      // Start of Bottom Navigation bar
+      bottomNavigationBar: CircleNavBar(
+        activeIndex: widget.navIndex!,
+        iconDurationMillSec: 200,
+        onTap: (index) {
+          if (index == 1) {
             Navigator.of(context).pushNamed('Cart');
-          } else if (value == 0) {
+          } else if (index == 0) {
             Navigator.of(
               context,
             ).pushNamedAndRemoveUntil('Home', (route) => false);
-          } else if (value == 2) {
+          } else if (index == 2) {
             Navigator.of(context).pushNamed('Profile');
           }
         },
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_bag_outlined),
-            label: 'Cart',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_2_rounded),
-            label: 'Profile',
-          ),
+        activeIcons: [
+          Icon(Icons.home_outlined, color: Colors.white, size: 40),
+          Icon(Icons.shopping_bag_outlined, color: Colors.white, size: 40),
+          Icon(Icons.person_2_rounded, color: Colors.white, size: 40),
         ],
-      ), //End of Bottom Navigation bar
-
+        inactiveIcons: [
+          Icon(Icons.home_outlined, color: Colors.white, size: 30),
+          Icon(Icons.shopping_bag_outlined, color: Colors.white, size: 30),
+          Icon(Icons.person_2_rounded, color: Colors.white, size: 30),
+        ],
+        color: Colors.grey[400]!,
+        cornerRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+          bottomLeft: Radius.circular(40),
+          bottomRight: Radius.circular(40),
+        ),
+        circleWidth: 75,
+        elevation:5,
+        padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+        shadowColor: Colors.deepOrange,
+        circleShadowColor: Colors.orangeAccent,
+        gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [ Colors.deepOrange, Colors.orangeAccent ],
+        ),
+        circleGradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [ Colors.deepOrange, Colors.orangeAccent ],
+        ),
+      ),//End of Bottom Navigation bar
       endDrawer: Drawer(),
+
+      // Start of AppBar
       appBar: AppBar(
+        elevation: 4,
         backgroundColor: Colors.grey[300],
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+        ),
+        
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           spacing: 5,
@@ -74,9 +104,8 @@ class _CartPageState extends State<CartPage> {
           itemBuilder: (context, index) {
             var currentItem = items[index] as Map;
             return Padding(
-              padding: const EdgeInsets.only(top: 5,bottom: 5),
+              padding: const EdgeInsets.only(top: 5, bottom: 5),
               child: Slidable(
-
                 endActionPane: ActionPane(
                   motion: ScrollMotion(),
                   children: [
@@ -101,9 +130,19 @@ class _CartPageState extends State<CartPage> {
                   child: ListTile(
                     tileColor: Colors.grey[200],
                     leading: Image.asset(currentItem['imagePath']),
-                    title: Text(currentItem['title'], style: TextStyle(fontWeight: FontWeight.bold),),
+                    title: Text(
+                      currentItem['title'],
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     subtitle: Text(currentItem['subTitle']),
-                    trailing: Text('\$${currentItem['price'].toStringAsFixed(2)}', style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold, color: Colors.deepOrange),),
+                    trailing: Text(
+                      '\$${currentItem['price'].toStringAsFixed(2)}',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.deepOrange,
+                      ),
+                    ),
                   ),
                 ),
               ),

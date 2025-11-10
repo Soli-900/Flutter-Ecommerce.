@@ -39,6 +39,7 @@ dependencies:
   path_provider: ^2.0.15
   google_fonts: ^6.0.0
   flutter_slidable: ^4.0.3
+  circle_nav_bar: ^2.2.0
 
 dev_dependencies:
   flutter_test:

@@ -1,35 +1,70 @@
+import 'package:circle_nav_bar/circle_nav_bar.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key, this.navIndex=2});
-  final  navIndex ;
+  const ProfilePage({super.key, this.navIndex = 2});
+  final navIndex;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        iconSize: 35,
-        selectedItemColor: Colors.deepOrange,
-        currentIndex: navIndex,
-        onTap: (value) {
-          if(value ==1){
-            Navigator.of(context).pushNamed( 'Cart');
-          }
-          else if(value ==0){
-            Navigator.of(context).pushNamedAndRemoveUntil('Home', (route) => false);
-          }
-          else if(value ==2){
+      bottomNavigationBar: CircleNavBar(
+        iconDurationMillSec: 200,
+        activeIndex: navIndex!,
+        onTap: (index) {
+          if (index == 1) {
+            Navigator.of(context).pushNamed('Cart');
+          } else if (index == 0) {
+            Navigator.of(
+              context,
+            ).pushNamedAndRemoveUntil('Home', (route) => false);
+          } else if (index == 2) {
             Navigator.of(context).pushNamed('Profile');
           }
         },
-        items: [
-          
-        BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'Home'),
-        BottomNavigationBarItem(icon: Icon(Icons.shopping_bag_outlined), label: 'Cart',),
-        BottomNavigationBarItem(icon: Icon(Icons.person_2_rounded), label: 'Profile'),
-      ]),
+        activeIcons: [
+          Icon(Icons.home_outlined, color: Colors.white, size: 40),
+          Icon(Icons.shopping_bag_outlined, color: Colors.white, size: 40),
+          Icon(Icons.person_2_rounded, color: Colors.white, size: 40),
+        ],
+        inactiveIcons: [
+          Icon(Icons.home_outlined, color: Colors.white, size: 30),
+          Icon(Icons.shopping_bag_outlined, color: Colors.white, size: 30),
+          Icon(Icons.person_2_rounded, color: Colors.white, size: 30),
+        ],
+        color: Colors.grey[400]!,
+        cornerRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+          bottomLeft: Radius.circular(40),
+          bottomRight: Radius.circular(40),
+        ),
+        circleWidth: 75,
+        elevation: 5,
+        padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+        shadowColor: Colors.deepOrange,
+        circleShadowColor: Colors.orangeAccent,
+        gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [Colors.deepOrange, Colors.orangeAccent],
+        ),
+        circleGradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [Colors.deepOrange, Colors.orangeAccent],
+        ),
+      ),
       endDrawer: Drawer(),
       appBar: AppBar(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+        ),
         backgroundColor: Colors.grey[300],
         title: Text('Profile'),
         centerTitle: true,
@@ -85,7 +120,10 @@ class ProfilePage extends StatelessWidget {
                         color: Colors.deepOrange,
                       ),
                     ),
-                    title: Text('Emy_Smith@gmail.com', style: TextStyle(fontSize: 18)),
+                    title: Text(
+                      'Emy_Smith@gmail.com',
+                      style: TextStyle(fontSize: 18),
+                    ),
                   ),
                 ),
                 SizedBox(height: 15),
