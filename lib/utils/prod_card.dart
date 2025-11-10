@@ -20,7 +20,7 @@ class ProdCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(5),
       radius: 100,
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ItemDetails(imagePath: imagePath, title: title, subTitle: subTitle, price: prodPrice)));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ItemDetails(imagePath: imagePath, title: title, subTitle: subTitle, price: prodPrice, selectedColor: 'Red',)));
       },
       child: Card(
         child: Column(
