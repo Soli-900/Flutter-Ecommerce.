@@ -137,6 +137,13 @@ class _ItemDetailsState extends State<ItemDetails> {
                       SnackBar(
                         content: Text('Item added to cart'),
                         duration: Duration(seconds: 2),
+                        backgroundColor: Colors.deepOrange,
+                       shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10) ,
+                      ),
+                      behavior: SnackBarBehavior.floating,
+                      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 30 ),
+                      elevation: 5,
                       ),
                     );
                     Navigator.of(context).pushNamed('Cart');
@@ -144,7 +151,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.deepOrange,
                     elevation: 5,
-                    padding: EdgeInsets.symmetric(vertical: 15.0),
+                    padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 12.0),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
